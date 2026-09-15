@@ -1,7 +1,7 @@
 import { Arrow } from "@/components/icons";
 export default function NotFound() {
   return (
-    <main className="not-found shell">
+    <main id="main" className="not-found shell">
       <span className="eyebrow">IEEE RVCE / 404</span>
       <h1>
         A little

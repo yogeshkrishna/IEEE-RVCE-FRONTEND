@@ -91,7 +91,7 @@ export default function PostcardStack() {
                   alt={depth === 0 ? card.alt : ""}
                   fill
                   sizes="(max-width:760px) 90vw, 650px"
-                  priority={id === 0}
+                  preload={id === 0}
                   style={{ objectPosition: card.position }}
                   draggable={false}
                 />

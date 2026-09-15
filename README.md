@@ -1,70 +1,86 @@
-# IEEE RVCE — Common Ground (version 2)
+# IEEE RVCE — Common Ground
 
-A responsive Next.js landing page with a warm cream and forest-green palette, expressive serif typography and real branch photography. The society explorer uses warm paper tones and muted discipline colors. Soft sage links the facts and awards to the welcome. The closing section keeps its dark layout with cream text, sage accents and the same serif typography as the opening. Section labels use short italic titles without numbers or all-caps styling.
+A complete public-facing Next.js frontend, expanded from the original homepage concept. The permanent visual identity pairs warm ivory with confident blue, navy, honey, coral, lilac and turquoise. The shield and IEEE wordmark form one home link. There is no theme toggle or alternate green mode.
 
-## Postcards and the hidden color switch
+## Run and build
 
-Click the top hero postcard to send it to the back. The original photograph remains first, followed by the three supplied branch images. The same control works with Enter and Space; reduced-motion users get an immediate change. Repeated clicks during a transition are ignored.
-
-Click only the RV shield in the header or footer to switch between the default green palette and a blue palette. The IEEE RVCE wordmark still links home. The setting is intentionally local to the current page session; reloading starts green. Colors change throughout the site, including society and event artwork, while the photos and layout stay unchanged.
-
-## Blue palette
-
-Blue mode uses deep blue and navy for the primary identity, with the same warm ivory paper as green mode. Society cards retain apricot, sage, lilac, honey, rose and sea-glass colors. Event posters use honey, sage and terracotta; the awards use powder blue and brass details, and the dark ending pairs ivory type with pale blue and gold. This is a curated complementary palette, not a global hue conversion. The green mode and all layouts remain unchanged.
-
-## Run independently
-
-Use Node.js 24 and npm. From this folder:
+Use Node.js 24 and npm from this folder:
 
 ```sh
 npm ci
-npm run dev -- --port 3001
+npm run dev -- --port 3010
 ```
 
-Open http://localhost:3001. The separate `ver1_spectrum` snapshot can run on port 3002; changes in either folder do not affect the other. If dependencies are already installed, skip `npm ci`.
+Open http://localhost:3010. Both localhost and 127.0.0.1 are explicitly allowed for local development resources.
 
-## Production checks
+For production:
 
 ```sh
 npm run build
 npm run typecheck
-npm run start -- --port 3001
+npm run start -- --port 3012
 ```
 
-Stop the development server before starting production on the same port.
+## What is included
+
+| Destination         | Functionality                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                 | Original welcome, interactive photo postcards, keyboard-accessible society explorer, event highlights and dark closing section |
+| `/about`            | Branch story and links to people, recognition and photographs                                                                  |
+| `/team`             | Thirteen people from the original site's committee directory, with a source-date notice and alumni archive link                |
+| `/awards`           | Historical branch and chapter recognition                                                                                      |
+| `/gallery`          | Four archival photographs with full-image links                                                                                |
+| `/societies`        | Search all twelve communities and filter by community type                                                                     |
+| `/societies/[slug]` | Twelve individual community pages with topics and related branch events                                                        |
+| `/affinities`       | Dedicated WIE and SIGHT directory                                                                                              |
+| `/events`           | Fifteen selected archived events; keyword, year and format filters; chronological sorting; URL-persisted selections            |
+| `/events/[id]`      | Event overview, dates, subject tags, related events and original record links                                                  |
+| `/calendar`         | Month navigation, month picker, event links, multi-day events, mobile agenda and shareable month URLs                          |
+| `/membership`       | Membership journey, official guidance and accessible FAQ disclosures                                                           |
+| `/articles`         | Honest empty state and an email link to propose a contribution                                                                 |
+| `/contact`          | Contact details, campus map link, validated email-draft preparation                                                            |
+
+The shared header uses actual page routes. It marks the active section, closes the mobile menu after navigation, supports Escape, and restores focus to the menu toggle. Footer links expose all major pages. Deep links, refresh and browser Back work.
+
+## Design and implementation
+
+- Permanent palette: `src/app/palette.css`. Swatch IDs keep the original content mappings; their values now define the blue identity.
+- Homepage styling: `src/app/light.css` and `src/app/globals.css`.
+- Interior page styling: `src/app/pages.css`.
+- Shared navigation and footer: `src/components/navigation.tsx`, `footer.tsx`, and `brand.tsx`.
+- Communities and homepage content: `src/lib/content.ts`.
+- Event records and timezone-stable date formatting: `src/lib/events.ts`.
+- Fonts: locally served Fraunces, DM Sans and Manrope.
+- Photography: local WebP images with responsive Next.js image delivery. The hero preloads its first image.
+- Known pages are prerendered. Small client components handle search, calendars, postcards and menus.
+
+## Frontend scope and backend handoff
+
+The project runs without environment variables, accounts, databases or API keys. Authentication, society publishing dashboards, media uploads and CMS integration remain the backend team's scope.
+
+The contact form prepares a `mailto:` draft; the visitor reviews and sends it in their email application. The website does not claim to send or store a message. Article proposals also use email. No submission is sent during automated testing.
+
+Events are clearly labelled as archival and registration is closed. Fifteen records are curated locally; the full original archive remains linked. Related community events are matched by subject, not claimed as that chapter's hosted events. The original article directory has no published entries. Committee roles mirror the source site, which does not state its committee term. See `CONTENT-SOURCES.md` before replacing content with current records.
 
 ## Deploy to Vercel
 
-1. Push the contents of this `ver2_common_ground` folder to a GitHub repository, including `package-lock.json`. Do not commit `node_modules` or `.next`.
-2. Import the repository in Vercel. Choose Next.js and set Root Directory to this project’s folder if it is nested in the repository.
-3. Use Node.js 24.x, build command `npm run build` and the default output settings.
-4. Deploy. No environment variables, API keys, CMS account or database are required for this frontend.
+1. Push this folder's current source to your GitHub repository.
+2. Import the repository into Vercel and select this directory as the root if it is nested.
+3. Select Next.js, Node.js 24.x, and build command `npm run build`. Leave the output directory at its default.
+4. No environment variables are required for this frontend.
 
-The adjacent `ver2_common_ground-vercel-ready.zip` contains portable source, local assets and these guides; it excludes dependencies and generated builds. Extract it, run `npm ci`, and follow the same steps. This project has not been published by the assistant.
+No public deployment or Git push was performed for this revision. Older deployment ZIPs are earlier snapshots; use the current source folder or the new blue-site archive supplied with this revision.
 
-## Where to edit
+## Verification and compatibility
 
-- `src/components/welcome.tsx`: welcome hero and opening copy.
-- `src/components/postcard-stack.tsx`: photo order, captions and postcard interaction.
-- `src/components/brand.tsx` and `theme-provider.tsx`: shield action, home link and shared theme state.
-- `src/app/palette.css`: exact default paint values and the alternate blue palette. Swatch names refer to the original hex color; edit their values to tune either theme.
-- `src/lib/theme-color.ts`: resolves palette-aware society and event colors, with a fallback for future content.
-- `src/app/light.css`: version 2’s palette, hero and light-theme adaptations; the closing section uses coordinated dark tokens.
-- `src/app/globals.css`: shared component layouts and the original design foundation, now using palette tokens.
-- `src/app/page.tsx`: homepage sections and copy.
-- `src/lib/content.ts`: society descriptions, archived events, awards and official destination links.
-- `src/components/society-explorer.tsx`: keyboard-accessible society selector.
-- `src/components/navigation.tsx`: sticky navigation and mobile menu.
-- `src/app/layout.tsx`: metadata and locally bundled fonts.
+See `VERIFICATION.md` for the checks actually performed. The available browser was Chromium; real Firefox, Safari, Edge and physical-device tests were not available. Next.js's installed documentation lists Chrome 111+, Edge 111+, Firefox 111+ and Safari 16.4+ as its baseline browser support.
 
-Colors: cream `#faf9f5`, forest `#233e35`, green `#557b60`, sage `#dce8d8`; the dark ending uses `#191e1b`, cream `#f4f1e7` and sage `#b9cda4`. Fonts are Fraunces, Manrope and DM Sans, served locally. The former spectrum component remains in the source for reference but is not imported or rendered by this version.
+### Repeat the route checks
 
-## Scope and future integration
+With the production server running:
 
-This is the public homepage frontend. Authentication, society dashboards, CMS, database and media uploads remain the separate backend team’s work. No pretend login or registration flow is included. Sanity can later supply the content objects; update existing official-site links when the new detail routes are available.
+```sh
+node scripts/check-routes.mjs http://localhost:3012
+```
 
-Events and the 2020 group photograph are explicitly archival. Replace these with approved current branch content when available. See `CONTENT-SOURCES.md` for provenance and `VERIFICATION.md` for checks and limitations.
-
-## Local development issue notice
-
-The reported issue was traced in the Next.js development log to Grammarly injecting `data-new-gr-c-s-check-loaded` and `data-gr-ext-installed` attributes onto the body before React hydrated it. The body now has a narrowly scoped `suppressHydrationWarning`; mismatches inside page components remain visible. Refresh any tab still showing the old warning. Next.js development diagnostics are not part of the production build.
+This checks all prerendered public routes, internal destinations and 404 handling.

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   useRef,
   useState,
@@ -114,18 +115,9 @@ export default function SocietyExplorer() {
                 <li key={topic}>{topic}</li>
               ))}
             </ul>
-            <a
-              href={society.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="society-link"
-            >
+            <Link href={`/societies/${society.id}`} className="society-link">
               Discover {society.short} <Arrow diagonal />
-              <span className="sr-only">
-                {" "}
-                on the existing IEEE RVCE site (opens in a new tab)
-              </span>
-            </a>
+            </Link>
           </div>
         </div>
         <div className="explorer-bottom">
@@ -133,23 +125,18 @@ export default function SocietyExplorer() {
           <span className="keyboard-hint">
             ← → <span>to explore</span>
           </span>
-          <a
-            href="https://www.ieee-rvce.org/#/membership"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="/membership">
             Become a member <Arrow diagonal />
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
+          </Link>
         </div>
       </div>
       <noscript>
         <div className="no-script-societies">
           <p>Explore all societies and communities:</p>
           {societies.map((item) => (
-            <a key={item.id} href={item.href}>
+            <Link key={item.id} href={`/societies/${item.id}`}>
               {item.name} ↗
-            </a>
+            </Link>
           ))}
         </div>
       </noscript>

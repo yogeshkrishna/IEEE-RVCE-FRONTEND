@@ -1,17 +1,15 @@
-import Brand from "@/components/brand";
+import Link from "next/link";
 import { themeColor } from "@/lib/theme-color";
 import type { CSSProperties } from "react";
-import Navigation from "@/components/navigation";
 import Welcome from "@/components/welcome";
 import SocietyExplorer from "@/components/society-explorer";
 import Reveal from "@/components/reveal";
 import { Arrow, DisciplineGraphic, Spark } from "@/components/icons";
-import { awards, contactEmail, highlights, originalSite } from "@/lib/content";
+import { awards, contactEmail, highlights } from "@/lib/content";
 
 export default function Home() {
   return (
     <>
-      <Navigation />
       <main id="main">
         <Welcome />
 
@@ -62,15 +60,9 @@ export default function Home() {
                   plus WIE and SIGHT
                 </span>
               </div>
-              <a
-                href={`${originalSite}/about`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="fact-link"
-              >
+              <Link href="/about" className="fact-link">
                 Get to know IEEE RVCE <Arrow diagonal />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -87,15 +79,9 @@ export default function Home() {
               <span className="eyebrow">Life beyond lectures</span>
               <h2 id="highlights-title">Beyond the classroom.</h2>
             </div>
-            <a
-              href={`${originalSite}/events`}
-              className="text-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="/events" className="text-link">
               Explore the event archive <Arrow diagonal />
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
+            </Link>
           </div>
           <p className="section-lede" data-reveal>
             A few moments from our story. Many more ideas to come.
@@ -110,12 +96,10 @@ export default function Home() {
                 }
                 data-reveal
               >
-                <a
-                  href={event.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={`/events/${event.id}`}
                   className="event-cover-link"
-                  aria-label={`Read about ${event.title} — archived event (opens in a new tab)`}
+                  aria-label={`Read about ${event.title} — archived event`}
                 >
                   <div className={`event-cover event-cover-${index}`}>
                     <div className="poster-meta">
@@ -155,20 +139,13 @@ export default function Home() {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
                 <div className="event-meta">
                   <span>{event.type}</span>
                   <time>{event.date}</time>
                 </div>
                 <h3>
-                  <a
-                    href={event.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {event.title}
-                    <span className="sr-only"> (opens in a new tab)</span>
-                  </a>
+                  <Link href={`/events/${event.id}`}>{event.title}</Link>
                 </h3>
                 <p>{event.description}</p>
               </article>
@@ -210,15 +187,9 @@ export default function Home() {
                   </span>
                 </article>
               ))}
-              <a
-                className="recognition-link"
-                href={`${originalSite}/`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link className="recognition-link" href="/awards">
                 View the branch’s award history <Arrow diagonal />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -248,73 +219,18 @@ export default function Home() {
                   Bring your expertise, your questions or your next big
                   challenge. Let’s create something meaningful together.
                 </p>
-                <a className="contact-email" href={`mailto:${contactEmail}`}>
+                <Link className="contact-email" href={`mailto:${contactEmail}`}>
                   {contactEmail}
                   <Arrow diagonal />
-                </a>
-                <a
-                  className="text-link membership-link"
-                  href={`${originalSite}/membership`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                </Link>
+                <Link className="text-link membership-link" href="/membership">
                   Looking to join IEEE? <Arrow diagonal />
-                  <span className="sr-only"> (opens in a new tab)</span>
-                </a>
+                </Link>
               </div>
             </div>
           </section>
         </div>
       </main>
-      <div className="closing-area">
-        <footer className="site-footer shell">
-          <div className="footer-top">
-            <Brand />
-            <address>
-              RV College of Engineering
-              <br />
-              Mysore Road, RV Vidyanikethan Post
-              <br />
-              Bengaluru 560059, Karnataka, India
-            </address>
-            <div className="footer-socials">
-              <a
-                href="https://www.instagram.com/ieee_rvce/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Instagram <Arrow diagonal />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/company/ieee-rvce/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn <Arrow diagonal />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a
-                href={`${originalSite}/articles`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Articles <Arrow diagonal />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </div>
-            <a href="#home" className="back-top" aria-label="Back to top">
-              ↑
-            </a>
-          </div>
-          <div className="footer-bottom">
-            <span>© {new Date().getFullYear()} IEEE RVCE Student Branch</span>
-            <span>Advancing technology for humanity.</span>
-            <span>Made of curious minds.</span>
-          </div>
-          <div className="spectrum-rule" aria-hidden="true" />
-        </footer>
-      </div>
       <Reveal />
     </>
   );

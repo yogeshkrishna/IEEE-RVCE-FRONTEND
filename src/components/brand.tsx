@@ -1,35 +1,26 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
-import { useColorTheme } from "./theme-provider";
 
 export default function Brand({ onNavigate }: { onNavigate?: () => void }) {
-  const { blue, toggle } = useColorTheme();
   return (
-    <div className="brand">
-      <button
-        type="button"
-        className="brand-shield"
-        onClick={toggle}
-        aria-label={blue ? "Use green color theme" : "Use blue color theme"}
-        aria-pressed={blue}
-      >
-        <Image
-          src="/images/rvce-mark.png"
-          width={43}
-          height={43}
-          alt="RV shield"
-        />
-      </button>
-      <a
-        href="#home"
-        className="brand-type"
-        aria-label="IEEE RVCE home"
-        onClick={onNavigate}
-      >
+    <Link
+      className="brand"
+      href="/"
+      aria-label="IEEE RVCE home"
+      onClick={onNavigate}
+    >
+      <Image
+        src="/images/rvce-mark.png"
+        width={43}
+        height={43}
+        alt="RV shield"
+      />
+      <span className="brand-type">
         IEEE <span>RVCE</span>
         <small>STUDENT BRANCH</small>
-      </a>
-    </div>
+      </span>
+    </Link>
   );
 }

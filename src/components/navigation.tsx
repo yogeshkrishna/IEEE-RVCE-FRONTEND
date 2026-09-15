@@ -1,56 +1,51 @@
 "use client";
-
-import Brand from "./brand";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import Brand from "./brand";
 import { Arrow } from "./icons";
-
 const links = [
-  { href: "#about", name: "The branch" },
-  { href: "#societies", name: "Our societies" },
-  { href: "#highlights", name: "Highlights" },
+  { href: "/", name: "Home" },
+  { href: "/about", name: "Our branch" },
+  { href: "/events", name: "Events" },
+  { href: "/societies", name: "Communities" },
+  { href: "/articles", name: "Articles" },
+  { href: "/membership", name: "Membership" },
 ];
-
 export default function Navigation() {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("");
+  const pathname = usePathname();
+  const [openAt, setOpenAt] = useState<string | null>(null);
+  const open = openAt === pathname;
   const toggleRef = useRef<HTMLButtonElement>(null);
   const navRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main section[id]"),
-    );
-    let frame = 0;
-    const update = () => {
-      frame = 0;
-      let current = "";
-      for (const section of sections)
-        if (section.getBoundingClientRect().top <= 180) current = section.id;
-      setActive(current === "recognition" ? "#highlights" : `#${current}`);
-    };
-    const scroll = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener("scroll", scroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", scroll);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
+  const active = (href: string) =>
+    href === "/"
+      ? pathname === "/"
+      : pathname.startsWith(href) ||
+        (href === "/societies" && pathname.startsWith("/affinities")) ||
+        (href === "/about" &&
+          ["/team", "/awards", "/gallery"].includes(pathname)) ||
+        (href === "/events" && pathname === "/calendar");
   useEffect(() => {
     if (!open) return;
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        setOpenAt(null);
         toggleRef.current?.focus();
       }
     };
     const outside = (event: PointerEvent) => {
-      if (!navRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!navRef.current?.contains(event.target as Node)) setOpenAt(null);
     };
+    const wide = window.matchMedia("(min-width: 1181px)");
+    const resize = () => {
+      if (wide.matches) setOpenAt(null);
+    };
+    wide.addEventListener("change", resize);
     document.addEventListener("keydown", escape);
     document.addEventListener("pointerdown", outside);
     return () => {
+      wide.removeEventListener("change", resize);
       document.removeEventListener("keydown", escape);
       document.removeEventListener("pointerdown", outside);
     };
@@ -61,46 +56,58 @@ export default function Navigation() {
         className="navigation shell"
         aria-label="Main navigation"
         ref={navRef}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget))
+            setOpenAt(null);
+        }}
       >
-        <Brand onNavigate={() => setOpen(false)} />
+        <Brand onNavigate={() => setOpenAt(null)} />
         <div className="desktop-links">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
-              aria-current={active === link.href ? "location" : undefined}
+              aria-current={active(link.href) ? "page" : undefined}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </div>
-        <a className="nav-contact" href="#contact">
-          Let’s connect <Arrow diagonal />
-        </a>
+        <Link
+          className="nav-contact"
+          href="/contact"
+          aria-current={pathname === "/contact" ? "page" : undefined}
+        >
+          Say hello <Arrow diagonal />
+        </Link>
         <button
           ref={toggleRef}
+          type="button"
           className="menu-toggle"
           aria-expanded={open}
           aria-controls="mobile-menu"
           aria-label={open ? "Close navigation" : "Open navigation"}
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpenAt(open ? null : pathname)}
         >
           <span className={open ? "open" : ""} />
           <span className={open ? "open" : ""} />
         </button>
         <div id="mobile-menu" className="mobile-menu" hidden={!open}>
-          {[...links, { href: "#contact", name: "Let’s connect" }].map(
-            (link) => (
-              <a
-                href={link.href}
-                key={link.href}
-                onClick={() => setOpen(false)}
-              >
-                {link.name}
-                <Arrow diagonal />
-              </a>
-            ),
-          )}
+          {[
+            ...links,
+            { href: "/affinities", name: "WIE & SIGHT" },
+            { href: "/contact", name: "Say hello" },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={active(link.href) ? "page" : undefined}
+              onClick={() => setOpenAt(null)}
+            >
+              {link.name}
+              <Arrow />
+            </Link>
+          ))}
         </div>
       </nav>
     </header>

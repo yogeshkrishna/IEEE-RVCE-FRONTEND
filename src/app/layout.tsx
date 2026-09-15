@@ -1,5 +1,6 @@
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
 import type { Metadata, Viewport } from "next";
-import { ThemeProvider } from "@/components/theme-provider";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/dm-sans";
 import "@fontsource-variable/fraunces";
@@ -7,9 +8,13 @@ import "@fontsource-variable/fraunces/wght-italic.css";
 import "./palette.css";
 import "./globals.css";
 import "./light.css";
+import "./pages.css";
 
 export const metadata: Metadata = {
-  title: "IEEE RVCE — A place for curious minds.",
+  title: {
+    default: "IEEE RVCE — A place for curious minds.",
+    template: "%s | IEEE RVCE",
+  },
   description:
     "Discover the IEEE Student Branch at RV College of Engineering, Bengaluru. Explore our societies, technical activities and a community advancing technology for humanity.",
   icons: { icon: "/images/rvce-mark.png" },
@@ -35,11 +40,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* Grammarly adds body attributes before hydration. Limit tolerance to this node. */}
-      <body suppressHydrationWarning>
+      <body id="page-top" suppressHydrationWarning>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Navigation />
+        {children}
+        <Footer />
       </body>
     </html>
   );

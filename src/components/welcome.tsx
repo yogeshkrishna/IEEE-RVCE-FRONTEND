@@ -1,3 +1,4 @@
+import Link from "next/link";
 import PostcardStack from "./postcard-stack";
 import { Arrow, Spark } from "./icons";
 
@@ -16,9 +17,9 @@ export default function Welcome() {
           <br className="mobile-break" /> The ideas you want to try.
           <br /> And the people you’ll meet along the way.
         </p>
-        <a className="welcome-cta" href="#societies">
+        <Link className="welcome-cta" href="/societies">
           Find your community <Arrow />
-        </a>
+        </Link>
       </div>
       <div className="welcome-scrapbook">
         <div className="welcome-note note-left">
@@ -53,9 +54,9 @@ export default function Welcome() {
             <br />
             <em>Powered by curiosity.</em>
           </p>
-          <a href="#about">
+          <Link href="/about">
             Get to know us <Arrow diagonal />
-          </a>
+          </Link>
         </div>
       </div>
       <div className="welcome-signoff">

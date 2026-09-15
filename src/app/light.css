@@ -1,4 +1,4 @@
-/* Common Ground: cream, forest, sage and paper tones throughout. */
+/* Common Ground: ivory paper, blue ink and complementary accents. */
 :root {
   --bg: var(--palette-faf9f5);
   --panel: var(--palette-ffffff);
@@ -757,28 +757,12 @@ a:focus-visible {
   }
 }
 
-/* The shield has its own action; the wordmark remains a home link. */
-.brand-shield {
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  border-radius: 5px;
-  position: relative;
-}
-.brand-shield::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-}
-
 /* Four physical postcards share one stable, keyboard-accessible button. */
 .postcard-stack {
   min-width: 0;
   margin: -32px -12px;
   padding: 32px 12px;
+  overflow: hidden;
   overflow: clip;
 }
 .postcard-deck {
