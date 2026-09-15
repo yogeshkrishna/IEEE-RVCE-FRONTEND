@@ -1,19 +1,23 @@
 # IEEE RVCE — Common Ground
 
-A complete public-facing Next.js frontend, expanded from the original homepage concept. The permanent visual identity pairs warm ivory with confident blue, navy, honey, coral, lilac and turquoise. The shield and IEEE wordmark form one home link. There is no theme toggle or alternate green mode.
+A responsive website frontend for the IEEE Student Branch at RV College of Engineering, Bengaluru. Common Ground brings the branch’s communities, events and stories into one welcoming place, with a focus on clear navigation, practical interactions and a distinct visual identity.
+
+Warm ivory, expressive typography and real branch photography sit alongside blue, navy and complementary accents. The experience carries the same design across the homepage, community directories, event archive and individual detail pages.
 
 ## Run and build
 
-Use Node.js 24 and npm from this folder:
+Use Node.js 24 and npm:
 
 ```sh
+git clone https://github.com/yogeshkrishna/IEEE-RVCE-FRONTEND.git
+cd IEEE-RVCE-FRONTEND
 npm ci
 npm run dev -- --port 3010
 ```
 
-Open http://localhost:3010. Both localhost and 127.0.0.1 are explicitly allowed for local development resources.
+Open [localhost:3010](http://localhost:3010) to view the development site.
 
-For production:
+For a production build:
 
 ```sh
 npm run build
@@ -21,66 +25,73 @@ npm run typecheck
 npm run start -- --port 3012
 ```
 
+The production site runs at [localhost:3012](http://localhost:3012). No environment variables or external services are needed to run the frontend locally.
+
 ## What is included
 
-| Destination         | Functionality                                                                                                                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `/`                 | Original welcome, interactive photo postcards, keyboard-accessible society explorer, event highlights and dark closing section |
-| `/about`            | Branch story and links to people, recognition and photographs                                                                  |
-| `/team`             | Thirteen people from the original site's committee directory, with a source-date notice and alumni archive link                |
-| `/awards`           | Historical branch and chapter recognition                                                                                      |
-| `/gallery`          | Four archival photographs with full-image links                                                                                |
-| `/societies`        | Search all twelve communities and filter by community type                                                                     |
-| `/societies/[slug]` | Twelve individual community pages with topics and related branch events                                                        |
-| `/affinities`       | Dedicated WIE and SIGHT directory                                                                                              |
-| `/events`           | Fifteen selected archived events; keyword, year and format filters; chronological sorting; URL-persisted selections            |
-| `/events/[id]`      | Event overview, dates, subject tags, related events and original record links                                                  |
-| `/calendar`         | Month navigation, month picker, event links, multi-day events, mobile agenda and shareable month URLs                          |
-| `/membership`       | Membership journey, official guidance and accessible FAQ disclosures                                                           |
-| `/articles`         | Honest empty state and an email link to propose a contribution                                                                 |
-| `/contact`          | Contact details, campus map link, validated email-draft preparation                                                            |
+| Destination | Functionality |
+| --- | --- |
+| `/` | Welcome page, interactive photo postcards, keyboard-accessible society explorer and branch highlights |
+| `/about` | Branch story and an introduction to its community |
+| `/team` | Committee directory and a link to the alumni archive |
+| `/awards` | Historical branch and chapter recognition |
+| `/gallery` | Branch photographs with full-image links |
+| `/societies` | Search twelve communities and filter by community type |
+| `/societies/[slug]` | Individual community pages with interests, topics and related events |
+| `/affinities` | Dedicated Women in Engineering and SIGHT directory |
+| `/events` | Event archive with keyword, year and format filters, chronological sorting and shareable selections |
+| `/events/[id]` | Event overviews, dates, subject tags, related events and source records |
+| `/calendar` | Month navigation, multi-day events, mobile agenda and shareable month views |
+| `/membership` | Membership guidance, useful links and frequently asked questions |
+| `/articles` | A space for future publications and a way to propose an article |
+| `/contact` | Branch contact details, campus location and email-draft preparation |
 
-The shared header uses actual page routes. It marks the active section, closes the mobile menu after navigation, supports Escape, and restores focus to the menu toggle. Footer links expose all major pages. Deep links, refresh and browser Back work.
+Pages have their own routes and can be opened directly or bookmarked. Shared navigation marks the active section, while the mobile menu supports keyboard controls and focus restoration. Event filters remain in the URL so selections survive refresh and browser Back.
 
 ## Design and implementation
 
-- Permanent palette: `src/app/palette.css`. Swatch IDs keep the original content mappings; their values now define the blue identity.
-- Homepage styling: `src/app/light.css` and `src/app/globals.css`.
-- Interior page styling: `src/app/pages.css`.
-- Shared navigation and footer: `src/components/navigation.tsx`, `footer.tsx`, and `brand.tsx`.
-- Communities and homepage content: `src/lib/content.ts`.
-- Event records and timezone-stable date formatting: `src/lib/events.ts`.
-- Fonts: locally served Fraunces, DM Sans and Manrope.
-- Photography: local WebP images with responsive Next.js image delivery. The hero preloads its first image.
-- Known pages are prerendered. Small client components handle search, calendars, postcards and menus.
+Built with Next.js App Router, React, TypeScript and custom CSS. Pages are prerendered, with small client components handling search, calendars, postcards and menus.
 
-## Frontend scope and backend handoff
+- **Palette:** `src/app/palette.css` defines the blue identity and complementary content colors.
+- **Homepage styling:** `src/app/light.css` and `src/app/globals.css`.
+- **Interior page styling:** `src/app/pages.css`.
+- **Shared layout:** `src/components/navigation.tsx`, `footer.tsx` and `brand.tsx`.
+- **Community content:** `src/lib/content.ts` contains society descriptions and homepage records.
+- **Event content:** `src/lib/events.ts` contains archive records and timezone-stable date formatting.
+- **Typography:** Fraunces, DM Sans and Manrope are served locally.
+- **Photography:** Local WebP assets use responsive Next.js image delivery. The first hero image is preloaded.
 
-The project runs without environment variables, accounts, databases or API keys. Authentication, society publishing dashboards, media uploads and CMS integration remain the backend team's scope.
+Native form controls and disclosure elements keep everyday interactions familiar. Responsive layouts, visible keyboard focus and reduced-motion styles are built into the interface.
 
-The contact form prepares a `mailto:` draft; the visitor reviews and sends it in their email application. The website does not claim to send or store a message. Article proposals also use email. No submission is sent during automated testing.
+## Content and project scope
 
-Events are clearly labelled as archival and registration is closed. Fifteen records are curated locally; the full original archive remains linked. Related community events are matched by subject, not claimed as that chapter's hosted events. The original article directory has no published entries. Committee roles mirror the source site, which does not state its committee term. See `CONTENT-SOURCES.md` before replacing content with current records.
+This repository contains the public frontend. Content is stored locally, with authentication, society publishing, media uploads and CMS integration left for a future backend integration.
 
-## Deploy to Vercel
+The event directory currently includes fifteen selected records from 2022–2024, with links to the complete branch archive. Events are labelled as past activities. Community recommendations are matched by subject and do not imply that a particular chapter hosted an event.
 
-1. Push this folder's current source to your GitHub repository.
-2. Import the repository into Vercel and select this directory as the root if it is nested.
-3. Select Next.js, Node.js 24.x, and build command `npm run build`. Leave the output directory at its default.
-4. No environment variables are required for this frontend.
+Committee details reflect the source website and include a source-date notice. The article section is ready for future publications. Content provenance and editorial notes are documented in [CONTENT-SOURCES.md](CONTENT-SOURCES.md).
 
-No public deployment or Git push was performed for this revision. Older deployment ZIPs are earlier snapshots; use the current source folder or the new blue-site archive supplied with this revision.
+The contact form validates input and prepares an email draft. Visitors review and send it through their own email application; the frontend does not store or deliver messages. Article proposals use the same email-based approach.
+
+## Deployment
+
+The project is configured for Vercel’s Next.js workflow. For a new deployment:
+
+1. Import the GitHub repository into Vercel.
+2. Use the repository root as the project directory.
+3. Select Next.js, Node.js 24.x and `npm run build` as the build command.
+4. Keep the default output settings. No environment variables are required for the current frontend.
+
+With Git integration enabled, pushes to the configured production branch trigger a new deployment.
 
 ## Verification and compatibility
 
-See `VERIFICATION.md` for the checks actually performed. The available browser was Chromium; real Firefox, Safari, Edge and physical-device tests were not available. Next.js's installed documentation lists Chrome 111+, Edge 111+, Firefox 111+ and Safari 16.4+ as its baseline browser support.
+Build, TypeScript, route and responsive checks are recorded in [VERIFICATION.md](VERIFICATION.md). Browser verification covers Chromium at widths from 320 to 1440 pixels. Separate Firefox, Safari, Edge and physical-device testing remains outstanding.
 
-### Repeat the route checks
-
-With the production server running:
+With the production server running, check the routes with:
 
 ```sh
 node scripts/check-routes.mjs http://localhost:3012
 ```
 
-This checks all prerendered public routes, internal destinations and 404 handling.
+The script checks public page loads, internal destinations, primary headings, skip-link targets and HTTP 404 handling. Interactive checks cover navigation, event filters, calendar behaviour, postcards and contact-form validation.
